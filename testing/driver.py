@@ -51,13 +51,14 @@ class Drone:
         for c, cname in zip(self.ch, self.ch_name):
             pi.set_servo_pulsewidth(c, self.zeros[cname])
 
-    def set_val(self, c, final_val, sleep_time=0.05):
+    def set_val(self, c, final_val, sleep_time=0.02, ignore_range=False):
         start_val = pi.get_servo_pulsewidth(c)
 
-        if final_val > self.maxs[self.get_name(c)]:
-            final_val = self.maxs[self.get_name(c)]
-        elif final_val < self.mins[self.get_name(c)]:
-            final_val = self.mins[self.get_name(c)]
+        if not ignore_range:
+            if final_val > self.maxs[self.get_name(c)]:
+                final_val = self.maxs[self.get_name(c)]
+            elif final_val < self.mins[self.get_name(c)]:
+                final_val = self.mins[self.get_name(c)]
 
         if start_val <= final_val:
             inc = self.inc
@@ -70,26 +71,19 @@ class Drone:
 
         return final_val
 
-    def set_val_danger(self, c, final_val, sleep_time=0.02):
-        start_val = pi.get_servo_pulsewidth(c)
-        if start_val <= final_val:
-            inc = self.inc
-        else:
-            inc = -self.inc
-        for i in range(start_val, final_val, inc):
-            pi.set_servo_pulsewidth(c, i)
-            sleep(sleep_time)
-        pi.set_servo_pulsewidth(c, final_val)
+    def set_val_ratio(self, c, ratio, sleep_time=0.02, ignore_range=False):
+        final_val = (ratio) * (self.maxs[self.get_name(c)]) + (1.0 - ratio) * (
+            self.mins[self.get_name(c)]
+        )
+        return self.set_val(c, final_val, sleep_time, ignore_range)
 
-        return final_val
-
-    def change_val(self, c, change):
+    def change_val(self, c, change, sleep_time=0.02, ignore_range=False):
         final_val = pi.get_servo_pulsewidth(c) + change
-        return self.set_val(c, final_val)
+        return self.set_val(c, final_val, sleep_time, ignore_range)
 
     def startup(self):
-        pi.set_servo_pulsewidth(self.thr, self.thr_start)
-        self.set_val(self.thr, self.mins["thr"], 0.2)
+        self.set_val_ratio(self.thr, 0.15, sleep_time=0.01)
+        # pi.set_servo_pulsewidth(self.thr, self.thr_start)
 
     def get_c(self, name):
         i = self.ch_name.index(name)
