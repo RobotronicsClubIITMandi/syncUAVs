@@ -3,7 +3,7 @@
 # TX -> Pin 10
 import serial
 from serial.serialutil import SerialException
-from .gps_decoder import decodeGPGGA, NotGPGGAError
+from gps_decoder import decodeGPGGA, NotGPGGAError, FixNotAcquiredError
 
 port = "/dev/serial0"
 
@@ -16,6 +16,8 @@ while True:
             print(decodeGPGGA(line))
         except NotGPGGAError:
             pass
+        except FixNotAcquiredError:
+            print("GPS fix not acquired")
     except SerialException:
         print("Exception Raised!!")
         ser.close()
