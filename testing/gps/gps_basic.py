@@ -1,4 +1,6 @@
 # requires sudo
+# RX -> Pin 8
+# TX -> Pin 10
 import serial
 
 port = "/dev/serial0"
