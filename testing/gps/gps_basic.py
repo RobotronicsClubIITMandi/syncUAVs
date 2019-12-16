@@ -14,3 +14,5 @@ while True:
         print(line.strip())
     except SerialException:
         print("Exception Raised!!")
+        ser.close()
+        ser = serial.Serial(port, baudrate=9600, timeout=1.0)
