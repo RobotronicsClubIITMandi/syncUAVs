@@ -13,4 +13,4 @@ while True:
         line = ser.readline().decode("ascii", errors="replace")
         print(line.strip())
     except SerialException:
-        pass
+        print("Exception Raised!!")
