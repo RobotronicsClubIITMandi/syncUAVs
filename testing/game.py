@@ -24,6 +24,7 @@ try:
     # d.startup()
     while True:
         pr = Process(target=sleep_throw_exception, args=(waittime,))
+        pr.start()
         try:
             d.control(str(getch.getch()))
             pr.terminate()
