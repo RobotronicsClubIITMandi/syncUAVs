@@ -128,5 +128,9 @@ class Drone:
             print("ail & ele reset")
             pi.set_servo_pulsewidth(self.ail, self.zeros["ail"])
             pi.set_servo_pulsewidth(self.ele, self.zeros["ele"])
+        elif inp == "n":
+            pi.set_servo_pulsewidth(self.ail, 0)
+            pi.set_servo_pulsewidth(self.ele, 0)
+            print("NULL")
         else:
             pass
