@@ -21,6 +21,14 @@ class Drone:
         self.spw = pi.set_servo_pulsewidth
         self.initialize()
 
+    def __get_c(self, name):
+        i = self.ch_name.index(name)
+        return self.ch[i]
+
+    def __get_name(self, c):
+        i = self.ch.index(c)
+        return self.ch_name[i]
+
     def initialize(self):
         for c in self.ch:
             pi.set_mode(c, pigpio.OUTPUT)
@@ -55,10 +63,10 @@ class Drone:
         start_val = pi.get_servo_pulsewidth(c)
 
         if not ignore_range:
-            if final_val > self.maxs[self.get_name(c)]:
-                final_val = self.maxs[self.get_name(c)]
-            elif final_val < self.mins[self.get_name(c)]:
-                final_val = self.mins[self.get_name(c)]
+            if final_val > self.maxs[self.__get_name(c)]:
+                final_val = self.maxs[self.__get_name(c)]
+            elif final_val < self.mins[self.__get_name(c)]:
+                final_val = self.mins[self.__get_name(c)]
 
         if start_val <= final_val:
             inc = self.inc
@@ -72,8 +80,8 @@ class Drone:
         return final_val
 
     def set_val_ratio(self, c, ratio, sleep_time=0.02, ignore_range=False):
-        final_val = (ratio) * (self.maxs[self.get_name(c)]) + (1.0 - ratio) * (
-            self.mins[self.get_name(c)]
+        final_val = (ratio) * (self.maxs[self.__get_name(c)]) + (1.0 - ratio) * (
+            self.mins[self.__get_name(c)]
         )
         return self.set_val(c, final_val, sleep_time, ignore_range)
 
@@ -83,15 +91,6 @@ class Drone:
 
     def startup(self):
         self.set_val_ratio(self.thr, 0.15, sleep_time=0.01)
-        # pi.set_servo_pulsewidth(self.thr, self.thr_start)
-
-    def get_c(self, name):
-        i = self.ch_name.index(name)
-        return self.ch[i]
-
-    def get_name(self, c):
-        i = self.ch.index(c)
-        return self.ch_name[i]
 
     def control(self, inp):
         if inp == "w":
