@@ -39,7 +39,7 @@ def sleep_throw_exception(wait):
 
 try:
     d.arm()
-    gps_process = Process(target=gps_out)
+    # gps_process = Process(target=gps_out)
     print("GIVE INPUTS!!")
     # d.startup()
     while True:
