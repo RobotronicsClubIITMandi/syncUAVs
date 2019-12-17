@@ -18,6 +18,7 @@ def sleep_throw_exception(wait):
     print("RESPONSE TIME EXCEEDED")
     raise WaitTimeException
 
+
 # def gps_out():
 #     port = "/dev/serial0"
 #     ser = serial.Serial(port, baudrate=9600, timeout=1.0)

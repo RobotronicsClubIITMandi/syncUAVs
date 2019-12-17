@@ -1,1 +1,1 @@
-from gps_decoder import decodeGPGGA, NotGPGGAError, FixNotAcquiredError
+from .gps_decoder import decodeGPGGA, NotGPGGAError, FixNotAcquiredError
