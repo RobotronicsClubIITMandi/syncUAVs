@@ -47,7 +47,7 @@ try:
     while True:
         pr = Process(target=sleep_throw_exception, args=(waittime,))
         pr.start()
-        d.control("n")
+        # d.control("n")
         try:
             command = str(getch.getch())
             pr.terminate()

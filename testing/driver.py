@@ -12,10 +12,11 @@ class Drone:
         self.rud = 19
         self.aux = 26
         self.ch = [5, 6, 13, 19, 26]
-        self.thr_start = 1450
+        self.thr_start = 1410
+        self.thr_stable_ratio = 0.7
         self.ch_name = ["ail", "ele", "thr", "rud", "aux"]
         self.zeros = {"ail": 1504, "ele": 1504, "thr": 1164, "rud": 1504, "aux": 1505}
-        self.mins = {"ail": 1124, "ele": 1185, "thr": 1320, "rud": 1110, "aux": 1020}
+        self.mins = {"ail": 1124, "ele": 1185, "thr": 1340, "rud": 1110, "aux": 1020}
         self.maxs = {"ail": 1852, "ele": 1820, "thr": 1850, "rud": 1924, "aux": 2050}
         self.inc = 10
         self.spw = pi.set_servo_pulsewidth
@@ -61,6 +62,7 @@ class Drone:
 
     def set_val(self, c, final_val, sleep_time=0.02, ignore_range=False):
         start_val = pi.get_servo_pulsewidth(c)
+        final_val = int(final_val)
 
         if not ignore_range:
             if final_val > self.maxs[self.__get_name(c)]:
@@ -103,7 +105,8 @@ class Drone:
         return self.set_val(c, final_val, sleep_time, ignore_range)
 
     def startup(self):
-        self.set_val_ratio(self.thr, 0.12, sleep_time=0.01)
+        pi.set_servo_pulsewidth(self.thr, self.thr_start)
+        self.set_val_ratio(self.thr, self.thr_stable_ratio, sleep_time=0.01)
 
     def control(self, inp, ignore_range=False):
         if inp == "w":
@@ -132,5 +135,7 @@ class Drone:
             pi.set_servo_pulsewidth(self.ail, 0)
             pi.set_servo_pulsewidth(self.ele, 0)
             print("NULL")
+        elif inp == "t":
+            self.startup()
         else:
             pass
