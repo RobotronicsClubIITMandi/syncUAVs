@@ -15,7 +15,7 @@ class Drone:
         self.thr_start = 1450
         self.ch_name = ["ail", "ele", "thr", "rud", "aux"]
         self.zeros = {"ail": 1504, "ele": 1504, "thr": 1164, "rud": 1504, "aux": 1505}
-        self.mins = {"ail": 1124, "ele": 1185, "thr": 1410, "rud": 1110, "aux": 1020}
+        self.mins = {"ail": 1124, "ele": 1185, "thr": 1320, "rud": 1110, "aux": 1020}
         self.maxs = {"ail": 1852, "ele": 1820, "thr": 1850, "rud": 1924, "aux": 2050}
         self.inc = 10
         self.spw = pi.set_servo_pulsewidth
@@ -103,13 +103,13 @@ class Drone:
         return self.set_val(c, final_val, sleep_time, ignore_range)
 
     def startup(self):
-        self.set_val_ratio(self.thr, 0.15, sleep_time=0.01)
+        self.set_val_ratio(self.thr, 0.12, sleep_time=0.01)
 
     def control(self, inp):
         if inp == "w":
-            print("thr", self.change_val(self.thr, 15))
+            print("thr", self.change_val(self.thr, 10))
         elif inp == "s":
-            print("thr", self.change_val(self.thr, -15))
+            print("thr", self.change_val(self.thr, -10))
         elif inp == "2":
             print("DISARMED")
             self.disarm()

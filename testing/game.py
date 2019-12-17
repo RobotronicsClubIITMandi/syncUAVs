@@ -10,7 +10,7 @@ class WaitTimeException(Exception):
 
 
 d = driver.Drone()
-waittime = 5.0
+waittime = 7.0
 
 
 def sleep_throw_exception(wait):
