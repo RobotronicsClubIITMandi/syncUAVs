@@ -12,11 +12,10 @@ class Drone:
         self.rud = 19
         self.aux = 26
         self.ch = [5, 6, 13, 19, 26]
-        self.thr_start = 1410
-        self.thr_stable_ratio = 0.075
+        self.thr_start = 1450
         self.ch_name = ["ail", "ele", "thr", "rud", "aux"]
         self.zeros = {"ail": 1504, "ele": 1504, "thr": 1164, "rud": 1504, "aux": 1505}
-        self.mins = {"ail": 1124, "ele": 1185, "thr": 1340, "rud": 1110, "aux": 1020}
+        self.mins = {"ail": 1124, "ele": 1185, "thr": 1410, "rud": 1110, "aux": 1020}
         self.maxs = {"ail": 1852, "ele": 1820, "thr": 1850, "rud": 1924, "aux": 2050}
         self.inc = 10
         self.spw = pi.set_servo_pulsewidth
@@ -62,7 +61,6 @@ class Drone:
 
     def set_val(self, c, final_val, sleep_time=0.02, ignore_range=False):
         start_val = pi.get_servo_pulsewidth(c)
-        final_val = int(final_val)
 
         if not ignore_range:
             if final_val > self.maxs[self.__get_name(c)]:
@@ -82,38 +80,23 @@ class Drone:
         return final_val
 
     def set_val_ratio(self, c, ratio, sleep_time=0.02, ignore_range=False):
-        if c == self.thr:
-            final_val = (ratio) * (self.maxs[self.__get_name(c)]) + (1.0 - ratio) * (
-                self.mins[self.__get_name(c)]
-            )
-            return self.set_val(c, final_val, sleep_time, ignore_range)
-        else:
-            if ratio >= 0.0:
-                final_val = (ratio) * (
-                    self.maxs[self.__get_name(c)]
-                    + (1.0 - ratio) * (self.zeros[self.__get_name(c)])
-                )
-            else:
-                final_val = (-1 * ratio) * (
-                    self.mins[self.__get_name(c)]
-                    + (1.0 + ratio) * (self.zeros[self.__get_name(c)])
-                )
-            return self.set_val(c, final_val, sleep_time, ignore_range)
+        final_val = (ratio) * (self.maxs[self.__get_name(c)]) + (1.0 - ratio) * (
+            self.mins[self.__get_name(c)]
+        )
+        return self.set_val(c, final_val, sleep_time, ignore_range)
 
     def change_val(self, c, change, sleep_time=0.02, ignore_range=False):
         final_val = pi.get_servo_pulsewidth(c) + change
         return self.set_val(c, final_val, sleep_time, ignore_range)
 
     def startup(self):
-        pi.set_servo_pulsewidth(self.thr, self.thr_start)
-        sleep(1.0)
-        self.set_val_ratio(self.thr, self.thr_stable_ratio, sleep_time=0.01)
+        self.set_val_ratio(self.thr, 0.15, sleep_time=0.01)
 
-    def control(self, inp, ignore_range=False):
+    def control(self, inp):
         if inp == "w":
-            print("thr", self.change_val(self.thr, 10, ignore_range=ignore_range))
+            print("thr", self.change_val(self.thr, 15))
         elif inp == "s":
-            print("thr", self.change_val(self.thr, -10, ignore_range=ignore_range))
+            print("thr", self.change_val(self.thr, -15))
         elif inp == "2":
             print("DISARMED")
             self.disarm()
@@ -121,22 +104,16 @@ class Drone:
             print("ARMED")
             self.arm()
         elif inp == "i":
-            print("ele", self.change_val(self.ele, 5, ignore_range=ignore_range))
+            print("ele", self.change_val(self.ele, 5))
         elif inp == "k":
-            print("ele", self.change_val(self.ele, -5, ignore_range=ignore_range))
+            print("ele", self.change_val(self.ele, -5))
         elif inp == "j":
-            print("ail", self.change_val(self.ail, -5, ignore_range=ignore_range))
+            print("ail", self.change_val(self.ail, -5))
         elif inp == "l":
-            print("ail", self.change_val(self.ail, 5, ignore_range=ignore_range))
+            print("ail", self.change_val(self.ail, 5))
         elif inp == "0":
             print("ail & ele reset")
             pi.set_servo_pulsewidth(self.ail, self.zeros["ail"])
             pi.set_servo_pulsewidth(self.ele, self.zeros["ele"])
-        elif inp == "n":
-            pi.set_servo_pulsewidth(self.ail, 0)
-            pi.set_servo_pulsewidth(self.ele, 0)
-            print("NULL")
-        elif inp == "t":
-            self.startup()
         else:
             pass
