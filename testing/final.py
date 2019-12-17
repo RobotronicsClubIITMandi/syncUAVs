@@ -45,9 +45,9 @@ if __name__ == "__main__":
     try:
         d.arm()
         d.startup()
-        d.set_val_ratio(d.thr, 1.3 * d.thr_stable_ratio)
+        print(d.set_val_ratio(d.thr, 1.3 * d.thr_stable_ratio))
         sleep(0.9)
-        d.set_val_ratio(d.thr, d.thr_stable_ratio)
+        print(d.set_val_ratio(d.thr, d.thr_stable_ratio))
 
         print(d.set_val_ratio(d.ele, 0.05))
         sleep(1.0)
@@ -59,7 +59,7 @@ if __name__ == "__main__":
         sleep(1.0)
         d.control("0")
 
-        d.set_val_ratio(d.thr, 0.85 * d.thr_stable_ratio)
+        print(d.set_val_ratio(d.thr, 0.85 * d.thr_stable_ratio))
         sleep(3.0)
         d.disarm()
     except KeyboardInterrupt:
