@@ -49,13 +49,13 @@ if __name__ == "__main__":
         sleep(0.9)
         print(d.set_val_ratio(d.thr, d.thr_stable_ratio))
 
-        print(d.set_val_ratio(d.ele, 0.05))
+        print(d.set_val_ratio(d.ele, 0.07))
         sleep(1.0)
         d.control("0")
-        print(d.set_val_ratio(d.ail, 0.05))
+        print(d.set_val_ratio(d.ail, 0.07))
         sleep(1.0)
         d.control("0")
-        print(d.set_val_ratio(d.ele, -0.05))
+        print(d.set_val_ratio(d.ele, -0.07))
         sleep(1.0)
         d.control("0")
 
