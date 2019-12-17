@@ -2,6 +2,7 @@ import driver
 from time import sleep
 import getch
 from multiprocessing import Process
+
 # from gps import decodeGPGGA, NotGPGGAError, FixNotAcquiredError
 
 
@@ -11,6 +12,7 @@ class WaitTimeException(Exception):
 
 d = driver.Drone()
 waittime = 7.0
+ignore_range = False
 
 
 def sleep_throw_exception(wait):
@@ -46,7 +48,12 @@ try:
         pr = Process(target=sleep_throw_exception, args=(waittime,))
         pr.start()
         try:
-            d.control(str(getch.getch()))
+            command = str(getch.getch())
+            if command == "c":
+                ignore_range = not ignore_range
+                print("ignore range :", ignore_range)
+                pass
+            d.control(command, ignore_range=ignore_range)
             pr.terminate()
         except WaitTimeException:
             d.control("0")

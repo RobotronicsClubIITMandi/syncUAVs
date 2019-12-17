@@ -105,11 +105,11 @@ class Drone:
     def startup(self):
         self.set_val_ratio(self.thr, 0.12, sleep_time=0.01)
 
-    def control(self, inp):
+    def control(self, inp, ignore_range=False):
         if inp == "w":
-            print("thr", self.change_val(self.thr, 10))
+            print("thr", self.change_val(self.thr, 10, ignore_range=ignore_range))
         elif inp == "s":
-            print("thr", self.change_val(self.thr, -10))
+            print("thr", self.change_val(self.thr, -10, ignore_range=ignore_range))
         elif inp == "2":
             print("DISARMED")
             self.disarm()
@@ -117,13 +117,13 @@ class Drone:
             print("ARMED")
             self.arm()
         elif inp == "i":
-            print("ele", self.change_val(self.ele, 5))
+            print("ele", self.change_val(self.ele, 5, ignore_range=ignore_range))
         elif inp == "k":
-            print("ele", self.change_val(self.ele, -5))
+            print("ele", self.change_val(self.ele, -5, ignore_range=ignore_range))
         elif inp == "j":
-            print("ail", self.change_val(self.ail, -5))
+            print("ail", self.change_val(self.ail, -5, ignore_range=ignore_range))
         elif inp == "l":
-            print("ail", self.change_val(self.ail, 5))
+            print("ail", self.change_val(self.ail, 5, ignore_range=ignore_range))
         elif inp == "0":
             print("ail & ele reset")
             pi.set_servo_pulsewidth(self.ail, self.zeros["ail"])
