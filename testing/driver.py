@@ -13,7 +13,7 @@ class Drone:
         self.aux = 26
         self.ch = [5, 6, 13, 19, 26]
         self.thr_start = 1410
-        self.thr_stable_ratio = 0.7
+        self.thr_stable_ratio = 0.07
         self.ch_name = ["ail", "ele", "thr", "rud", "aux"]
         self.zeros = {"ail": 1504, "ele": 1504, "thr": 1164, "rud": 1504, "aux": 1505}
         self.mins = {"ail": 1124, "ele": 1185, "thr": 1340, "rud": 1110, "aux": 1020}
