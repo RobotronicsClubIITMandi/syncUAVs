@@ -49,12 +49,12 @@ try:
         pr.start()
         try:
             command = str(getch.getch())
+            pr.terminate()
             if command == "c":
                 ignore_range = not ignore_range
                 print("ignore range :", ignore_range)
-                pass
-            d.control(command, ignore_range=ignore_range)
-            pr.terminate()
+            else:
+                d.control(command, ignore_range=ignore_range)
         except WaitTimeException:
             d.control("0")
             d.startup()
@@ -62,4 +62,4 @@ try:
             d.disarm()
 
 except KeyboardInterrupt:
-    d.killall()
+    d.disarm()
