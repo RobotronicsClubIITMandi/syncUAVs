@@ -89,15 +89,13 @@ class Drone:
             return self.set_val(c, final_val, sleep_time, ignore_range)
         else:
             if ratio >= 0.0:
-                final_val = (ratio) * (
-                    self.maxs[self.__get_name(c)]
-                    + (1.0 - ratio) * (self.zeros[self.__get_name(c)])
-                )
+                final_val = (ratio) * self.maxs[self.__get_name(c)] + (
+                    1.0 - ratio
+                ) * self.zeros[self.__get_name(c)]
             else:
-                final_val = (-1 * ratio) * (
-                    self.mins[self.__get_name(c)]
-                    + (1.0 + ratio) * (self.zeros[self.__get_name(c)])
-                )
+                final_val = (-1 * ratio) * self.mins[self.__get_name(c)] + (
+                    1.0 + ratio
+                ) * self.zeros[self.__get_name(c)]
             return self.set_val(c, final_val, sleep_time, ignore_range)
 
     def change_val(self, c, change, sleep_time=0.02, ignore_range=False):
