@@ -2,6 +2,7 @@ import driver
 from time import sleep
 import getch
 from multiprocessing import Process
+from gps import decodeGPGGA, NotGPGGAError, FixNotAcquiredError
 
 
 class WaitTimeException(Exception):
@@ -17,9 +18,27 @@ def sleep_throw_exception(wait):
     print("RESPONSE TIME EXCEEDED")
     raise WaitTimeException
 
+# def gps_out():
+#     port = "/dev/serial0"
+#     ser = serial.Serial(port, baudrate=9600, timeout=1.0)
+
+#     while True:
+#         try:
+#             line = ser.readline()
+#             try:
+#                 print(decodeGPGGA(line))
+#             except NotGPGGAError:
+#                 pass
+#             except FixNotAcquiredError:
+#                 print("GPS fix not acquired")
+#         except SerialException:
+#             print("GPS serial Exception Raised!!")
+#             ser.close()
+#             ser = serial.Serial(port, baudrate=9600, timeout=1.0)
 
 try:
     d.arm()
+    gps_process = Process(target=gps_out)
     print("GIVE INPUTS!!")
     # d.startup()
     while True:
