@@ -2,7 +2,7 @@ import driver
 from time import sleep
 import getch
 from multiprocessing import Process
-from gps import decodeGPGGA, NotGPGGAError, FixNotAcquiredError
+# from gps import decodeGPGGA, NotGPGGAError, FixNotAcquiredError
 
 
 class WaitTimeException(Exception):
