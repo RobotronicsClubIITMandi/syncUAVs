@@ -12,7 +12,8 @@ class Drone:
         self.rud = 19
         self.aux = 26
         self.ch = [5, 6, 13, 19, 26]
-        self.thr_start = 1410
+        self.thr_start = 1500
+        self.thr_stable = 1440
         self.thr_stable_ratio = 0.075
         self.ch_name = ["ail", "ele", "thr", "rud", "aux"]
         self.zeros = {"ail": 1504, "ele": 1504, "thr": 1164, "rud": 1504, "aux": 1505}
@@ -104,8 +105,8 @@ class Drone:
 
     def startup(self):
         pi.set_servo_pulsewidth(self.thr, self.thr_start)
-        sleep(1.0)
-        self.set_val_ratio(self.thr, self.thr_stable_ratio, sleep_time=0.01)
+        # sleep(1.1)
+        # pi.set_servo_pulsewidth(self.thr, self.thr_stable)
 
     def land(self):
         self.control("n")
