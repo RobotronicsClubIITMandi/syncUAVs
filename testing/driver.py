@@ -107,6 +107,11 @@ class Drone:
         sleep(1.0)
         self.set_val_ratio(self.thr, self.thr_stable_ratio, sleep_time=0.01)
 
+    def land(self):
+        self.control("n")
+        self.set_val(self.thr, 1000, sleep_time=0.5, ignore_range=True)
+        self.disarm()
+
     def control(self, inp, ignore_range=False):
         if inp == "w":
             print("thr", self.change_val(self.thr, 10, ignore_range=ignore_range))
@@ -136,5 +141,7 @@ class Drone:
             print("NULL")
         elif inp == "t":
             self.startup()
+        elif inp == "x":
+            self.land()
         else:
             pass
